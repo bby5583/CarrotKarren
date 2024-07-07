@@ -2,6 +2,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const scoreDisplay = document.getElementById('score');
+const startScreen = document.getElementById('startScreen');
 const gameOverDisplay = document.getElementById('gameOver');
 const finalScoreDisplay = document.getElementById('finalScore');
 const retryButton = document.getElementById('retryButton');
@@ -49,6 +50,7 @@ function startGame() {
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
     gameOverDisplay.style.display = 'none';
+    startScreen.style.display = 'none';
     startTime = Date.now();
     setSpeed();
     clearInterval(gameInterval);
@@ -151,24 +153,11 @@ function endGame() {
     gameOverDisplay.style.display = 'block';
 }
 
-window.addEventListener('keydown', (e) => {
-    switch (e.key) {
-        case 'ArrowUp':
-            if (direction.y === 0) direction = { x: 0, y: -gridSize };
-            break;
-        case 'ArrowDown':
-            if (direction.y === 0) direction = { x: 0, y: gridSize };
-            break;
-        case 'ArrowLeft':
-            if (direction.x === 0) direction = { x: -gridSize, y: 0 };
-            break;
-        case 'ArrowRight':
-            if (direction.x === 0) direction = { x: gridSize, y: 0 };
-            break;
-        case ' ':
-            if (!gameInterval) startGame();
-            break;
-    }
-});
+function handleStartGame() {
+    if (!gameInterval) startGame();
+}
+
+window.addEventListener('keydown', handleStartGame);
+canvas.addEventListener('click', handleStartGame);
 
 retryButton.addEventListener('click', startGame);
