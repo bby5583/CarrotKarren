@@ -32,22 +32,22 @@ const startSound = new Audio('start_sound.mp3'); // 게임 시작 효과음
 const eatSound = new Audio('eat_sound.mp3'); // 먹이 먹기 효과음
 const gameOverSound = new Audio('game_over_sound.mp3'); // 게임오버 효과음
 
-const snake = [{ x: 180, y: 540, dir: { x: 0, y: -36 } }];
-let direction = { x: 0, y: -36 }; // 초기 방향 (위쪽)
+const snake = [{ x: 180, y: 540, dir: { x: 0, y: -45 } }];
+let direction = { x: 0, y: -45 }; // 초기 방향 (위쪽)
 let food = { x: 360, y: 360 };
 let score = 0;
 let gameInterval;
 let startTime;
 const initialSpeed = 150; // 초기 이동 속도 (ms)
 const scoreIncrement = 10; // 먹이 점수 증가량
-const gridSize = 36; // 그리드 크기
+const gridSize = 45; // 그리드 크기
 
 function startGame() {
-    direction = { x: 0, y: -36 }; // 초기 방향 설정 (위쪽)
+    direction = { x: 0, y: -45 }; // 초기 방향 설정 (위쪽)
     const startX = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
     const startY = Math.floor(Math.random() * ((canvas.height / 2) / gridSize) + (canvas.height / 2 / gridSize)) * gridSize;
     snake.length = 1;
-    snake[0] = { x: startX, y: startY, dir: { x: 0, y: -36 } };
+    snake[0] = { x: startX, y: startY, dir: { x: 0, y: -45 } };
     placeFood();
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
@@ -130,10 +130,10 @@ function drawRotatedImage(image, x, y, width, height, angle) {
 }
 
 function getRotationAngle(direction) {
-    if (direction.x === 36 && direction.y === 0) return 0;
-    if (direction.x === 0 && direction.y === 36) return Math.PI / 2;
-    if (direction.x === -36 && direction.y === 0) return Math.PI;
-    if (direction.x === 0 && direction.y === -36) return -Math.PI / 2;
+    if (direction.x === 0 && direction.y === -45) return 0;
+    if (direction.x === 45 && direction.y === 0) return Math.PI / 2;
+    if (direction.x === 0 && direction.y === 45) return Math.PI;
+    if (direction.x === -45 && direction.y === 0) return -Math.PI / 2;
     return 0;
 }
 
