@@ -33,17 +33,17 @@ const eatSound = new Audio('eat_sound.mp3'); // 먹이 먹기 효과음
 const gameOverSound = new Audio('game_over_sound.mp3'); // 게임오버 효과음
 
 const snake = [{ x: 180, y: 180 }];
-let direction = { x: 0, y: 0 };
+let direction = { x: 36, y: 0 }; // 초기 방향
 let food = { x: 360, y: 360 };
 let score = 0;
 let gameInterval;
 let startTime;
-const initialSpeed = 200; // 초기 이동 속도 (ms)
+const initialSpeed = 150; // 초기 이동 속도 (ms)
 const scoreIncrement = 10; // 먹이 점수 증가량
-const gridSize = 30; // 그리드 크기
+const gridSize = 36; // 그리드 크기
 
 function startGame() {
-    direction = { x: 0, y: 0 };
+    direction = { x: 36, y: 0 }; // 초기 방향 설정
     snake.length = 1;
     snake[0] = { x: 180, y: 180 };
     placeFood();
@@ -61,18 +61,16 @@ function startGame() {
 }
 
 function gameLoop() {
-    if (direction.x !== 0 || direction.y !== 0) {
-        moveSnake();
-        if (checkCollision()) {
-            endGame();
-            return;
-        }
-        if (checkFoodCollision()) {
-            eatFood();
-        }
-        score += Math.floor(snake.length / 2); // 시간에 따른 점수 증가
-        scoreDisplay.textContent = `Score: ${score}`;
+    moveSnake();
+    if (checkCollision()) {
+        endGame();
+        return;
     }
+    if (checkFoodCollision()) {
+        eatFood();
+    }
+    score += Math.floor(snake.length / 2); // 시간에 따른 점수 증가
+    scoreDisplay.textContent = `Score: ${score}`;
     drawGame();
 }
 
@@ -102,8 +100,10 @@ function checkCollision() {
 }
 
 function placeFood() {
-    food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
-    food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+    const margin = 1; // 가장자리에서 1칸 떨어지기 위한 마진
+    const maxPos = (canvas.width / gridSize) - margin - 1;
+    food.x = (Math.floor(Math.random() * maxPos) + margin) * gridSize;
+    food.y = (Math.floor(Math.random() * maxPos) + margin) * gridSize;
 }
 
 function checkFoodCollision() {
@@ -159,17 +159,27 @@ function handleStartGame() {
 
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
-        case 'ArrowUp':
-            if (direction.y === 0) direction = { x: 0, y: -gridSize };
-            break;
-        case 'ArrowDown':
-            if (direction.y === 0) direction = { x: 0, y: gridSize };
-            break;
         case 'ArrowLeft':
-            if (direction.x === 0) direction = { x: -gridSize, y: 0 };
+            if (direction.y === 0) {
+                direction = { x: -gridSize, y: 0 };
+            } else if (direction.x === 0) {
+                direction = { x: 0, y: gridSize };
+            } else if (direction.x > 0) {
+                direction = { x: 0, y: -gridSize };
+            } else {
+                direction = { x: 0, y: gridSize };
+            }
             break;
         case 'ArrowRight':
-            if (direction.x === 0) direction = { x: gridSize, y: 0 };
+            if (direction.y === 0) {
+                direction = { x: gridSize, y: 0 };
+            } else if (direction.x === 0) {
+                direction = { x: 0, y: -gridSize };
+            } else if (direction.x > 0) {
+                direction = { x: 0, y: gridSize };
+            } else {
+                direction = { x: 0, y: -gridSize };
+            }
             break;
     }
     handleStartGame(); // 게임이 시작되지 않은 경우 시작
