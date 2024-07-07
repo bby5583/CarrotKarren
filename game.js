@@ -32,7 +32,7 @@ const startSound = new Audio('start_sound.mp3'); // 게임 시작 효과음
 const eatSound = new Audio('eat_sound.mp3'); // 먹이 먹기 효과음
 const gameOverSound = new Audio('game_over_sound.mp3'); // 게임오버 효과음
 
-const snake = [{ x: 180, y: 180 }];
+const snake = [{ x: 180, y: 180, dir: { x: 36, y: 0 } }];
 let direction = { x: 36, y: 0 }; // 초기 방향
 let food = { x: 360, y: 360 };
 let score = 0;
@@ -45,7 +45,7 @@ const gridSize = 36; // 그리드 크기
 function startGame() {
     direction = { x: 36, y: 0 }; // 초기 방향 설정
     snake.length = 1;
-    snake[0] = { x: 180, y: 180 };
+    snake[0] = { x: 180, y: 180, dir: { x: 36, y: 0 } };
     placeFood();
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
@@ -81,7 +81,7 @@ function setSpeed() {
 }
 
 function moveSnake() {
-    const newHead = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    const newHead = { x: snake[0].x + direction.x, y: snake[0].y + direction.y, dir: { ...direction } };
     snake.unshift(newHead);
     snake.pop();
 }
@@ -119,6 +119,22 @@ function eatFood() {
     setSpeed(); // 먹이를 먹을 때마다 속도 설정
 }
 
+function drawRotatedImage(image, x, y, width, height, angle) {
+    ctx.save();
+    ctx.translate(x + width / 2, y + height / 2);
+    ctx.rotate(angle);
+    ctx.drawImage(image, -width / 2, -height / 2, width, height);
+    ctx.restore();
+}
+
+function getRotationAngle(direction) {
+    if (direction.x === 36 && direction.y === 0) return 0;
+    if (direction.x === 0 && direction.y === 36) return Math.PI / 2;
+    if (direction.x === -36 && direction.y === 0) return Math.PI;
+    if (direction.x === 0 && direction.y === -36) return -Math.PI / 2;
+    return 0;
+}
+
 function drawGame() {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
     for (let i = 0; i < snake.length; i++) {
@@ -136,9 +152,9 @@ function drawGame() {
             } else {
                 headImage = snakeHeadImages[4];
             }
-            ctx.drawImage(headImage, segment.x, segment.y, gridSize, gridSize);
+            drawRotatedImage(headImage, segment.x, segment.y, gridSize, gridSize, getRotationAngle(segment.dir));
         } else {
-            ctx.drawImage(snakeBodyImage, segment.x, segment.y, gridSize, gridSize);
+            drawRotatedImage(snakeBodyImage, segment.x, segment.y, gridSize, gridSize, getRotationAngle(segment.dir));
         }
     }
     ctx.drawImage(foodImage, food.x, food.y, gridSize, gridSize);
