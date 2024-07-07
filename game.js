@@ -160,26 +160,12 @@ function handleStartGame() {
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'ArrowLeft':
-            if (direction.y === 0) {
-                direction = { x: -gridSize, y: 0 };
-            } else if (direction.x === 0) {
-                direction = { x: 0, y: gridSize };
-            } else if (direction.x > 0) {
-                direction = { x: 0, y: -gridSize };
-            } else {
-                direction = { x: 0, y: gridSize };
-            }
+            // 반시계 방향으로 90도 회전
+            direction = { x: direction.y, y: -direction.x };
             break;
         case 'ArrowRight':
-            if (direction.y === 0) {
-                direction = { x: gridSize, y: 0 };
-            } else if (direction.x === 0) {
-                direction = { x: 0, y: -gridSize };
-            } else if (direction.x > 0) {
-                direction = { x: 0, y: gridSize };
-            } else {
-                direction = { x: 0, y: -gridSize };
-            }
+            // 시계 방향으로 90도 회전
+            direction = { x: -direction.y, y: direction.x };
             break;
     }
     handleStartGame(); // 게임이 시작되지 않은 경우 시작
