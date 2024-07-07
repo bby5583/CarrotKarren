@@ -1,0 +1,17 @@
+snake_head1.png (30x30px)
+snake_head2.png (30x30px)
+snake_head3.png (30x30px)
+snake_head4.png (30x30px)
+snake_head5.png (30x30px)
+snake_body.png (30x30px)
+food.png (30x30px)
+background.png (900x900px)
+background_music.mp3: 배경 음악 파일
+start_sound.mp3: 게임 시작 효과음 파일
+eat_sound.mp3: 먹이 먹기 효과음 파일
+game_over_sound.mp3:
+
+
+자 한번 가볼까~!
+음 맛있다~
+으헝허헝헝.

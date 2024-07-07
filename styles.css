@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.game-container {
+    position: relative;
+}
+
+canvas {
+    display: block;
+    background-color: #222;
+}
+
+.score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: orange;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+}
+
+.game-over #finalScore {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.game-over #retryButton {
+    padding: 10px 20px;
+    font-size: 18px;
+}
