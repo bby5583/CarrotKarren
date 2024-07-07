@@ -157,7 +157,24 @@ function handleStartGame() {
     if (!gameInterval) startGame();
 }
 
-window.addEventListener('keydown', handleStartGame);
+window.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case 'ArrowUp':
+            if (direction.y === 0) direction = { x: 0, y: -gridSize };
+            break;
+        case 'ArrowDown':
+            if (direction.y === 0) direction = { x: 0, y: gridSize };
+            break;
+        case 'ArrowLeft':
+            if (direction.x === 0) direction = { x: -gridSize, y: 0 };
+            break;
+        case 'ArrowRight':
+            if (direction.x === 0) direction = { x: gridSize, y: 0 };
+            break;
+    }
+    handleStartGame(); // 게임이 시작되지 않은 경우 시작
+});
+
 canvas.addEventListener('click', handleStartGame);
 
 retryButton.addEventListener('click', startGame);
